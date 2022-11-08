@@ -1,0 +1,95 @@
+.container {
+  padding-top: 50px;
+  width: 70vw;
+  height: 90px;
+}
+
+.formNumber {
+  padding: 5px 5px 5px 15px;
+  display: flex;
+  justify-content: space-between;
+  background: #303134;
+  height: 40px;
+  border: 1px solid #3c4043;
+  border-radius: 15px;
+  transition: all ease-in-out 0.2s;
+}
+.formNumber:hover {
+  box-shadow: 0 4px 12px rgb(23 23 23 / 90%);
+}
+
+.inputNumber {
+  margin: 0 15px 0 15px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  color: #e8eaed;
+  font-size: 18px;
+}
+.inputNumber:focus-visible {
+  border: none;
+  outline: none;
+}
+
+.submitBtn {
+  min-width: 100px;
+  background-color: #3c4043;
+  border: none;
+  border-radius: 10px;
+  color: #e8eaed;
+  font-size: 18px;
+  cursor: pointer;
+  transition: opacity ease-in-out 0.2s;
+}
+.submitBtn:hover {
+  opacity: 0.8;
+}
+.submitBtn:active {
+  opacity: 0.6;
+}
+.submitBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.selectCode {
+  border: none;
+  background: transparent;
+  color: #e8eaed;
+  font-size: 18px;
+}
+.selectCode:focus-visible {
+  border: none;
+  outline: none;
+}
+
+.textErr {
+  margin: 12px 24px 0;
+  color: #ea4335;
+  font-size: 18px;
+}
+
+@media screen and (max-width: 460px) {
+  .container {
+    padding-top: 36px;
+  }
+
+  .inputNumber {
+    font-size: 14px;
+  }
+
+  .selectCode {
+    font-size: 14px;
+  }
+
+  .submitBtn {
+    min-width: 70px;
+    font-size: 14px;
+  }
+
+  .textErr {
+    margin: 12px 12px 0;
+    font-size: 14px;
+  }
+}

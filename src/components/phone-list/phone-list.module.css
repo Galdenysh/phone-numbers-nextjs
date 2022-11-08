@@ -1,0 +1,57 @@
+.container {
+  padding-top: 30px;
+  width: 50vw;
+}
+
+.phoneList {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.phoneItem {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.phoneItem:first-of-type {
+  margin-top: 0;
+}
+
+.text {
+  margin: 0;
+  color: #e8eaed;
+  font-size: 20px;
+}
+
+.removeBtn {
+  height: 24px;
+  width: 24px;
+  border: none;
+  background: no-repeat center url("./images/remove-button.svg");
+  cursor: pointer;
+  transition: opacity ease-in-out 0.2s;
+}
+.removeBtn:hover {
+  opacity: 0.8;
+}
+.removeBtn:active {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 460px) {
+  .container {
+    padding-top: 36px;
+    width: 70vw;
+  }
+
+  .text {
+    font-size: 14px;
+  }
+
+  .removeBtn {
+    height: 18px;
+    width: 18px;
+  }
+}
