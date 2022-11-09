@@ -1,17 +1,17 @@
 import { ChangeEvent, FC, SyntheticEvent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { numberSlice } from "../../services/reducers/number";
+import { postNumber } from "../../services/actions/number";
 import { selectOpt } from "../../utils/config";
 import styles from "./phone-number.module.css";
 
 const PhoneNumber: FC = () => {
-  const [value, setValue] = useState("");
+  const [numberValue, setNumberValue] = useState("");
+  const [codeValue, setCodeValue] = useState(selectOpt[0].country);
   const [error, setError] = useState(false);
   const [textError, setTextError] = useState("Поле не может быть пустым");
   const [formValid, setFormValid] = useState(false);
-  const { text } = useAppSelector((store) => store.test);
-  const { setNumberState } = numberSlice.actions;
   const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((store) => store.number);
 
   const inputHandler = (evt: ChangeEvent<HTMLInputElement>) => {
     const result = evt.target.value.replace(/\D/g, "");
@@ -24,7 +24,13 @@ const PhoneNumber: FC = () => {
       setTextError("");
     }
 
-    setValue(result);
+    setNumberValue(result);
+  };
+
+  const selectHandler = (evt: ChangeEvent<HTMLSelectElement>) => {
+    const code = evt.target.value;
+
+    setCodeValue(code);
   };
 
   const blurHandler = () => {
@@ -34,8 +40,10 @@ const PhoneNumber: FC = () => {
   const submitHandler = (evt: SyntheticEvent) => {
     evt.preventDefault();
 
-    dispatch(setNumberState("test123"));
-    console.log(text);
+    const code = selectOpt.find((item) => item.country === codeValue);
+    const number = code?.code + numberValue;
+
+    dispatch(postNumber(number));
   };
 
   useEffect(() => {
@@ -45,7 +53,7 @@ const PhoneNumber: FC = () => {
   return (
     <section className={styles.container}>
       <form className={styles.formNumber} onSubmit={submitHandler}>
-        <select className={styles.selectCode}>
+        <select className={styles.selectCode} value={codeValue} onChange={selectHandler}>
           {selectOpt.map((item) => (
             <option key={item.id} className={styles.optionCode} value={item.country}>
               {item.code}
@@ -57,11 +65,11 @@ const PhoneNumber: FC = () => {
           name="number"
           placeholder="Введите номер"
           onBlur={blurHandler}
-          value={value}
+          value={numberValue}
           onChange={inputHandler}
         />
-        <button className={styles.submitBtn} disabled={!formValid}>
-          Ввод
+        <button className={styles.submitBtn} disabled={!formValid || isLoading}>
+          {isLoading ? "Загрузка" : "Ввод"}
         </button>
       </form>
       {error && textError && <p className={styles.textErr}>{textError}</p>}
