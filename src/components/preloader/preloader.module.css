@@ -1,0 +1,12 @@
+.text {
+  margin: 0;
+  padding-top: 30px;
+  color: #e8eaed;
+  font-size: 24px;
+}
+
+@media screen and (max-width: 460px) {
+  .text {
+    font-size: 18px;
+  }
+}

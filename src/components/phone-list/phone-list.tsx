@@ -1,21 +1,23 @@
+import { FC } from "react";
+import { useAppSelector } from "../../hooks/redux";
 import styles from "./phone-list.module.css";
 
-const PhoneList = () => {
+const PhoneList: FC = () => {
+  const { data } = useAppSelector((store) => store.number);
+
   return (
     <section className={styles.container}>
       <ul className={styles.phoneList}>
-        <li className={styles.phoneItem}>
-          <p className={styles.text}>+7 (911) 123-45-67</p>
-          <button className={styles.removeBtn} type="button" />
-        </li>
-        <li className={styles.phoneItem}>
-          <p className={styles.text}>+7 (911) 123-45-67</p>
-          <button className={styles.removeBtn} type="button" />
-        </li>
-        <li className={styles.phoneItem}>
-          <p className={styles.text}>+7 (911) 123-45-67</p>
-          <button className={styles.removeBtn} type="button" />
-        </li>
+        {data.length !== 0 ? (
+          data.map((item) => (
+            <li key={item?.id} className={styles.phoneItem}>
+              <p className={styles.text}>{item?.number}</p>
+              <button className={styles.removeBtn} type="button" />
+            </li>
+          ))
+        ) : (
+          <></>
+        )}
       </ul>
     </section>
   );

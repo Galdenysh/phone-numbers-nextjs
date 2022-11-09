@@ -11,7 +11,7 @@ const PhoneNumber: FC = () => {
   const [textError, setTextError] = useState("Поле не может быть пустым");
   const [formValid, setFormValid] = useState(false);
   const dispatch = useAppDispatch();
-  const { isLoading } = useAppSelector((store) => store.number);
+  const { isLoadingPost } = useAppSelector((store) => store.number);
 
   const inputHandler = (evt: ChangeEvent<HTMLInputElement>) => {
     const result = evt.target.value.replace(/\D/g, "");
@@ -68,8 +68,8 @@ const PhoneNumber: FC = () => {
           value={numberValue}
           onChange={inputHandler}
         />
-        <button className={styles.submitBtn} disabled={!formValid || isLoading}>
-          {isLoading ? "Загрузка" : "Ввод"}
+        <button className={styles.submitBtn} disabled={!formValid || isLoadingPost}>
+          {isLoadingPost ? "Загрузка" : "Ввод"}
         </button>
       </form>
       {error && textError && <p className={styles.textErr}>{textError}</p>}
