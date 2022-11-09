@@ -1,21 +1,26 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { removeItem } from "../../utils/funcs";
 import { IPhoneNumber } from "../../utils/types";
-import { fetchNumbers, postNumber } from "../actions/number";
+import { fetchNumbers, postNumber, removeNumber } from "../actions/number";
 
 export interface INumberState {
   data: (IPhoneNumber | undefined)[];
   isLoadingPost: boolean;
   isLoadingFetch: boolean;
+  isLoadingDelete: boolean;
   errorPost: string;
   errorFetch: string;
+  errorDelete: string;
 }
 
 const initialState: INumberState = {
   data: [],
   isLoadingPost: false,
   isLoadingFetch: false,
+  isLoadingDelete: false,
   errorPost: "",
   errorFetch: "",
+  errorDelete: "",
 };
 
 export const numberSlice = createSlice({
@@ -49,6 +54,20 @@ export const numberSlice = createSlice({
       .addCase(fetchNumbers.rejected.type, (state, action: PayloadAction<string>) => {
         state.isLoadingFetch = false;
         state.errorFetch = action.payload;
+      })
+      .addCase(removeNumber.fulfilled.type, (state, action: PayloadAction<IPhoneNumber>) => {
+        state.data = removeItem(state.data, action.payload);
+        // console.log(action.payload);
+        state.isLoadingDelete = false;
+        state.errorDelete = "";
+      })
+      .addCase(removeNumber.pending.type, (state) => {
+        state.isLoadingDelete = true;
+        state.errorDelete = "";
+      })
+      .addCase(removeNumber.rejected.type, (state, action: PayloadAction<string>) => {
+        state.isLoadingDelete = false;
+        state.errorDelete = action.payload;
       });
   },
 });

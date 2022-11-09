@@ -23,6 +23,7 @@
   margin: 0;
   color: #e8eaed;
   font-size: 20px;
+  transition: opacity ease-in-out 0.2s;
 }
 
 .removeBtn {
@@ -38,6 +39,10 @@
 }
 .removeBtn:active {
   opacity: 0.6;
+}
+.removeBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 @media screen and (max-width: 460px) {

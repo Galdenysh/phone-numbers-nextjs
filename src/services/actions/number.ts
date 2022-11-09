@@ -28,3 +28,16 @@ export const fetchNumbers = createAsyncThunk("number/fetchNumbers", async (_, th
     thunkAPI.rejectWithValue(`[/api/numbers] ${err}`);
   }
 });
+
+export const removeNumber = createAsyncThunk("number/removeNumber", async (id: string, thunkAPI) => {
+  try {
+    return fetch(`/api/numbers/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+      .then((res) => res.number);
+  } catch (err) {
+    thunkAPI.rejectWithValue(`[/api/numbers] ${err}`);
+  }
+});

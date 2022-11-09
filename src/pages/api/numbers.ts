@@ -40,7 +40,7 @@ export default async function numbersHandler(req: NextApiRequest, res: NextApiRe
 
       if (number) {
         try {
-          await client.set(id, number, "EX", 1200);
+          await client.set(id, number);
         } catch (err) {
           console.error("[/api/numbers]", err);
           res.status(500).send({ message: "Error while processing request" });
