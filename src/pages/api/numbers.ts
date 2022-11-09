@@ -10,15 +10,13 @@ type Data = {
 export default async function numbersHandler(req: NextApiRequest, res: NextApiResponse<Data>) {
   switch (req.method) {
     case "GET":
-      client.set("foo", "bar");
-      console.log("GET");
-      // try {
-      //   await client.set("foo", "bar", "EX", 120);
-      // } catch (e) {
-      //   console.error("[/api/numbers]", e);
-      //   res.status(500).send({ message: "Error while processing request" });
-      //   return;
-      // }
+      try {
+        await client.set("foo", "bar", "EX", 120);
+      } catch (e) {
+        console.error("[/api/numbers]", e);
+        res.status(500).send({ message: "Error while processing request" });
+        return;
+      }
       res.status(200).json({ message: "OK" });
       break;
     default: //Method Not Allowed

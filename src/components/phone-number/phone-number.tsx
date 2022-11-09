@@ -1,4 +1,6 @@
 import { ChangeEvent, FC, SyntheticEvent, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { numberSlice } from "../../services/reducers/number";
 import { selectOpt } from "../../utils/config";
 import styles from "./phone-number.module.css";
 
@@ -7,6 +9,9 @@ const PhoneNumber: FC = () => {
   const [error, setError] = useState(false);
   const [textError, setTextError] = useState("Поле не может быть пустым");
   const [formValid, setFormValid] = useState(false);
+  const { text } = useAppSelector((store) => store.test);
+  const { setNumberState } = numberSlice.actions;
+  const dispatch = useAppDispatch();
 
   const inputHandler = (evt: ChangeEvent<HTMLInputElement>) => {
     const result = evt.target.value.replace(/\D/g, "");
@@ -28,6 +33,9 @@ const PhoneNumber: FC = () => {
 
   const submitHandler = (evt: SyntheticEvent) => {
     evt.preventDefault();
+
+    dispatch(setNumberState("test123"));
+    console.log(text);
   };
 
   useEffect(() => {
