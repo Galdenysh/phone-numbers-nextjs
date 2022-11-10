@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import SocketIOClient from "socket.io-client";
+import SocketIOClient, { Socket } from "socket.io-client";
 import PhoneList from "../components/phone-list/phone-list";
 import PhoneNumber from "../components/phone-number/phone-number";
 import Preloader from "../components/preloader/preloader";
@@ -16,7 +16,7 @@ const Home: FC = () => {
   const { addSocketStatus } = socketSlice.actions;
   const { isLoadingFetch, errorFetch } = useAppSelector((store) => store.number);
 
-  const socketInitializer = async (baseUrl: string) => {
+  const socketInitializer = (baseUrl: string) => {
     const socket = SocketIOClient(baseUrl, {
       path: "/api/socket",
     });
@@ -33,11 +33,19 @@ const Home: FC = () => {
     socket.on("delete-number", (msg) => {
       dispatch(deleteNumber(msg));
     });
+
+    return socket;
+  };
+
+  const disconnectSocket = (socket: Socket) => {
+    if (socket) socket.disconnect();
   };
 
   useEffect(() => {
+    const socket = socketInitializer(baseUrl);
     dispatch(fetchNumbers());
-    socketInitializer(baseUrl);
+
+    return () => disconnectSocket(socket);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
