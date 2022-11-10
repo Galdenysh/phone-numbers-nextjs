@@ -1,4 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest } from "next";
+import NextCors from "nextjs-cors";
 import { getStaticRedisClient } from "../../database/redis";
 import { v4 as uuidv4 } from "uuid";
 import { NextApiResponseServerIO } from "../../utils/types";
@@ -12,6 +13,13 @@ type Data = {
 };
 
 const NumbersHandler = async (req: NextApiRequest, res: NextApiResponseServerIO<Data>) => {
+  await NextCors(req, res, {
+    // Options
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+    origin: "*",
+    optionsSuccessStatus: 200,
+  });
+
   switch (req.method) {
     case "GET":
       try {

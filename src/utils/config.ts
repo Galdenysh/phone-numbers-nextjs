@@ -10,7 +10,7 @@ const dev = {
 
 // production constants
 const prod = {
-  baseUrl: "https://superkassa-beta.vercel.app",
+  baseUrl: "https://superkassa.herokuapp.com",
   selectOpt: [
     { id: 1, country: "rus", code: "+7" },
     { id: 2, country: "by", code: "+375" },
