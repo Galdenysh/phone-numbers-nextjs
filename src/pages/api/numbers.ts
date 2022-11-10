@@ -10,7 +10,7 @@ type Data = {
   number?: { id: string; number: string };
 };
 
-export default async function numbersHandler(req: NextApiRequest, res: NextApiResponse<Data>) {
+const NumbersHandler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   switch (req.method) {
     case "GET":
       try {
@@ -55,4 +55,6 @@ export default async function numbersHandler(req: NextApiRequest, res: NextApiRe
       res.status(405).send({ message: "Only GET and POST requests allowed" });
       break;
   }
-}
+};
+
+export default NumbersHandler;

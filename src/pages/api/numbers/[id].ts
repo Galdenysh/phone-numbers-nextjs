@@ -8,7 +8,7 @@ type Data = {
   number?: { id: string; number: string };
 };
 
-export default async function numbersHandler(req: NextApiRequest, res: NextApiResponse<Data>) {
+const NumbersIdHandler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   switch (req.method) {
     case "DELETE":
       const { id } = req.query;
@@ -31,4 +31,6 @@ export default async function numbersHandler(req: NextApiRequest, res: NextApiRe
       res.status(405).send({ message: "Only DELETE requests allowed" });
       break;
   }
-}
+};
+
+export default NumbersIdHandler;
