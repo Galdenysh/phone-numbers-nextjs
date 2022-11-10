@@ -1,5 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest } from "next";
 import { getStaticRedisClient } from "../../../database/redis";
+import { NextApiResponseServerIO } from "../../../utils/types";
 
 const client = getStaticRedisClient();
 
@@ -8,7 +9,7 @@ type Data = {
   number?: { id: string; number: string };
 };
 
-const NumbersIdHandler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+const NumbersIdHandler = async (req: NextApiRequest, res: NextApiResponseServerIO<Data>) => {
   switch (req.method) {
     case "DELETE":
       const { id } = req.query;
@@ -17,6 +18,7 @@ const NumbersIdHandler = async (req: NextApiRequest, res: NextApiResponse<Data>)
         try {
           const number = await client.get(id);
           await client.del(id);
+          res?.socket?.server?.io?.emit("delete-number", { id, number }); //emit message other clients
           number ? res.status(200).json({ number: { id, number } }) : res.status(500).send({ message: "Number not found" });
         } catch (err) {
           console.error("[/api/numbers]", err);

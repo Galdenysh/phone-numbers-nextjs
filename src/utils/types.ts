@@ -7,7 +7,7 @@ export interface IPhoneNumber {
   number: string;
 }
 
-export type NextApiResponseServerIO = NextApiResponse & {
+export type NextApiResponseServerIO<T = any> = NextApiResponse<T> & {
   socket: Socket & {
     server: NetServer & {
       io: SocketIOServer;

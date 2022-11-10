@@ -26,11 +26,17 @@ const initialState: INumberState = {
 export const numberSlice = createSlice({
   name: "number",
   initialState,
-  reducers: {},
+  reducers: {
+    addNumber(state, action: PayloadAction<IPhoneNumber>) {
+      if (!state.data.find((item) => item?.id === action.payload.id)) state.data.push(action.payload);
+    },
+    deleteNumber(state, action: PayloadAction<IPhoneNumber>) {
+      if (state.data.find((item) => item?.id === action.payload.id)) state.data = removeItem(state.data, action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(postNumber.fulfilled.type, (state, action: PayloadAction<IPhoneNumber>) => {
-        state.data.push(action.payload);
+      .addCase(postNumber.fulfilled.type, (state) => {
         state.isLoadingPost = false;
         state.errorPost = "";
       })
@@ -55,9 +61,7 @@ export const numberSlice = createSlice({
         state.isLoadingFetch = false;
         state.errorFetch = action.payload;
       })
-      .addCase(removeNumber.fulfilled.type, (state, action: PayloadAction<IPhoneNumber>) => {
-        state.data = removeItem(state.data, action.payload);
-        // console.log(action.payload);
+      .addCase(removeNumber.fulfilled.type, (state) => {
         state.isLoadingDelete = false;
         state.errorDelete = "";
       })

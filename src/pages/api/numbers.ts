@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getStaticRedisClient } from "../../database/redis";
 import { v4 as uuidv4 } from "uuid";
+import { NextApiResponseServerIO } from "../../utils/types";
 
 const client = getStaticRedisClient();
 
@@ -10,7 +11,7 @@ type Data = {
   number?: { id: string; number: string };
 };
 
-const NumbersHandler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+const NumbersHandler = async (req: NextApiRequest, res: NextApiResponseServerIO<Data>) => {
   switch (req.method) {
     case "GET":
       try {
@@ -41,6 +42,7 @@ const NumbersHandler = async (req: NextApiRequest, res: NextApiResponse<Data>) =
       if (number) {
         try {
           await client.set(id, number);
+          res?.socket?.server?.io?.emit("add-number", { id, number }); //emit message other clients
         } catch (err) {
           console.error("[/api/numbers]", err);
           res.status(500).send({ message: "Error while processing request" });
