@@ -8,7 +8,7 @@ import { fetchNumbers } from "../services/actions/number";
 import { numberSlice } from "../services/reducers/number";
 import { socketSlice } from "../services/reducers/socket";
 import styles from "../styles/index.module.css";
-import { baseUrl } from "../utils/config";
+import { config } from "../utils/config";
 
 const Home: FC = () => {
   const dispatch = useAppDispatch();
@@ -42,7 +42,7 @@ const Home: FC = () => {
   };
 
   useEffect(() => {
-    const socket = socketInitializer(baseUrl);
+    const socket = socketInitializer(config.baseUrl);
     dispatch(fetchNumbers());
 
     return () => disconnectSocket(socket);

@@ -1,12 +1,12 @@
 import { ChangeEvent, FC, SyntheticEvent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { postNumber } from "../../services/actions/number";
-import { selectOpt } from "../../utils/config";
+import { config } from "../../utils/config";
 import styles from "./phone-number.module.css";
 
 const PhoneNumber: FC = () => {
   const [numberValue, setNumberValue] = useState("");
-  const [codeValue, setCodeValue] = useState(selectOpt[0].country);
+  const [codeValue, setCodeValue] = useState(config.selectOpt[0].country);
   const [error, setError] = useState(false);
   const [textError, setTextError] = useState("Поле не может быть пустым");
   const [formValid, setFormValid] = useState(false);
@@ -41,7 +41,7 @@ const PhoneNumber: FC = () => {
   const submitHandler = (evt: SyntheticEvent) => {
     evt.preventDefault();
 
-    const code = selectOpt.find((item) => item.country === codeValue);
+    const code = config.selectOpt.find((item) => item.country === codeValue);
     const number = code?.code + numberValue;
 
     dispatch(postNumber(number));
@@ -55,7 +55,7 @@ const PhoneNumber: FC = () => {
     <section className={styles.container}>
       <form className={styles.formNumber} onSubmit={submitHandler}>
         <select className={styles.selectCode} value={codeValue} onChange={selectHandler}>
-          {selectOpt.map((item) => (
+          {config.selectOpt.map((item) => (
             <option key={item.id} className={styles.optionCode} value={item.country}>
               {item.code}
             </option>
