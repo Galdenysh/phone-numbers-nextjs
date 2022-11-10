@@ -7,6 +7,11 @@ export interface IPhoneNumber {
   number: string;
 }
 
+export interface ISocket {
+  id: string;
+  connect: boolean;
+}
+
 export type NextApiResponseServerIO<T = any> = NextApiResponse<T> & {
   socket: Socket & {
     server: NetServer & {

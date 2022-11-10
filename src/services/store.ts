@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 import { numberSlice } from "./reducers/number";
+import { socketSlice } from "./reducers/socket";
 
 const store = () =>
   configureStore({
     reducer: {
       [numberSlice.name]: numberSlice.reducer,
+      [socketSlice.name]: socketSlice.reducer,
     },
     devTools: true,
   });

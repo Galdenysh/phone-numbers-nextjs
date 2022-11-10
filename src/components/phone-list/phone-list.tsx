@@ -6,6 +6,7 @@ import styles from "./phone-list.module.css";
 const PhoneList: FC = () => {
   const [disable, setDisable] = useState(-1);
   const { data, isLoadingDelete } = useAppSelector((store) => store.number);
+  const { connect } = useAppSelector((store) => store.socket);
   const dispatch = useAppDispatch();
 
   const removeHandler = (id: string | undefined, index: number) => {
@@ -29,7 +30,7 @@ const PhoneList: FC = () => {
                 className={styles.removeBtn}
                 type="button"
                 onClick={() => removeHandler(item?.id, index)}
-                disabled={isLoadingDelete && index === disable}
+                disabled={(isLoadingDelete && index === disable) || !connect}
               />
             </li>
           ))

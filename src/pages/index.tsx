@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import SocketIOClient from "socket.io-client";
 import PhoneList from "../components/phone-list/phone-list";
 import PhoneNumber from "../components/phone-number/phone-number";
@@ -6,12 +6,14 @@ import Preloader from "../components/preloader/preloader";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { fetchNumbers } from "../services/actions/number";
 import { numberSlice } from "../services/reducers/number";
+import { socketSlice } from "../services/reducers/socket";
 import styles from "../styles/index.module.css";
 import { baseUrl } from "../utils/config";
 
 const Home: FC = () => {
   const dispatch = useAppDispatch();
   const { addNumber, deleteNumber } = numberSlice.actions;
+  const { addSocketStatus } = socketSlice.actions;
   const { isLoadingFetch, errorFetch } = useAppSelector((store) => store.number);
 
   const socketInitializer = async (baseUrl: string) => {
@@ -20,6 +22,7 @@ const Home: FC = () => {
     });
 
     socket.on("connect", () => {
+      dispatch(addSocketStatus({ id: socket.id, connect: true }));
       console.log("Socket connected", socket.id);
     });
 

@@ -12,6 +12,7 @@ const PhoneNumber: FC = () => {
   const [formValid, setFormValid] = useState(false);
   const dispatch = useAppDispatch();
   const { isLoadingPost } = useAppSelector((store) => store.number);
+  const { connect } = useAppSelector((store) => store.socket);
 
   const inputHandler = (evt: ChangeEvent<HTMLInputElement>) => {
     const result = evt.target.value.replace(/\D/g, "");
@@ -68,7 +69,7 @@ const PhoneNumber: FC = () => {
           value={numberValue}
           onChange={inputHandler}
         />
-        <button className={styles.submitBtn} disabled={!formValid || isLoadingPost}>
+        <button className={styles.submitBtn} disabled={!formValid || isLoadingPost || !connect}>
           {isLoadingPost ? "Загрузка" : "Ввод"}
         </button>
       </form>
